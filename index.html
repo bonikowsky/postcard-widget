@@ -12,20 +12,15 @@
     <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-      /* Turn the parent card into a container query context */
       .widget-container {
         container-type: inline-size;
         width: 100%;
       }
-
-      /* Default (Narrow): Stacked 1 column */
       .widget-grid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 1rem;
       }
-
-      /* When the container is wide enough for the longer title (~700px+), switch to 2 columns */
       @container (min-width: 700px) {
         .widget-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -40,7 +35,6 @@
       function App() {
         const sheetUrl = 'https://script.google.com/macros/s/AKfycbzvR2fIFz2KkWzhVzREqv_GSGN7aZBfUPQVdJaKsLjclimLFLt5WpmkxvwVIMmW-0Ek/exec';
         const [currentAmount, setCurrentAmount] = React.useState(968.71);
-        const [isLoaded, setIsLoaded] = React.useState(false);
         const [errorDetails, setErrorDetails] = React.useState(null);
 
         const BUDGET_ERRENTERIA = 1896.64;
@@ -91,7 +85,6 @@
 
             if (foundVal !== null) {
               setCurrentAmount(foundVal);
-              setIsLoaded(true);
             } else {
               setErrorDetails(`Could not find numeric value in JSON response`);
             }
@@ -163,7 +156,10 @@
         );
       }
 
-      ReactDOM.render(<App />, document.getElementById('root'));
+      // React 18 compatible root rendering
+      const rootElement = document.getElementById('root');
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(<App />);
     </script>
 </body>
 </html>
