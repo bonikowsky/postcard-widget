@@ -11,6 +11,27 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      /* Turn the parent card into a container query context */
+      .widget-container {
+        container-type: inline-size;
+        width: 100%;
+      }
+
+      /* Default (Narrow): Stacked 1 column */
+      .widget-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      /* When the container is wide enough for the longer title (~700px+), switch to 2 columns */
+      @container (min-width: 700px) {
+        .widget-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+    </style>
 </head>
 <body class="bg-transparent m-0 p-0">
     <div id="root"></div>
@@ -88,59 +109,13 @@
 
         return (
           <div className="p-2 flex flex-col items-center justify-center bg-transparent">
-            <div className="w-full bg-white rounded-xl shadow-sm border border-slate-200 p-3">
-              {/* Responsive dynamic grid: stacked on mobile, 2 columns on large screens */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="widget-container">
+              <div className="w-full bg-white rounded-xl shadow-sm border border-slate-200 p-3">
                 
-                {/* ERRENTERIA */}
-                <div className="bg-slate-50/60 border border-slate-200/80 rounded-xl p-3 flex flex-col items-center">
-                  <h3 className="font-bold text-slate-800 text-xs tracking-wide uppercase mb-2">Errenteria</h3>
-                  <div className="grid grid-cols-[repeat(18,minmax(0,1fr))] gap-1 w-full mb-2 p-1 bg-white rounded-lg border border-slate-100">
-                    {Array.from({ length: TOTAL_SLOTS }).map((_, i) => (
-                      <div key={`err-${i}`} className="aspect-square flex items-center justify-center">
-                        <svg viewBox="0 0 24 24" className="w-full h-full transition-all duration-200" fill={i < activeErrCount ? '#3b82f6' : '#cbd5e1'}>
-                          <path d="M12 2L1 12h3v9h6v-6h4v6h6v-9h3L12 2z"/>
-                        </svg>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="text-center font-bold text-xs text-slate-800">
-                    {errPercent}% FUNDED ({errenteriaFundedHomes.toLocaleString()} Homes Covered)
-                  </div>
-                </div>
-
-                {/* SURROUNDING TOWNS */}
-                <div className="bg-slate-50/60 border border-slate-200/80 rounded-xl p-3 flex flex-col items-center">
-                  <h3 className="font-bold text-slate-800 text-xs tracking-wide uppercase mb-2 text-center">
-                    Surrounding Towns <span className="font-normal text-slate-500">(Lezo, Pasaia, Altza)</span>
-                  </h3>
-                  <div className="grid grid-cols-[repeat(18,minmax(0,1fr))] gap-1 w-full mb-2 p-1 bg-white rounded-lg border border-slate-100">
-                    {Array.from({ length: TOTAL_SLOTS }).map((_, i) => (
-                      <div key={`out-${i}`} className="aspect-square flex items-center justify-center">
-                        <svg viewBox="0 0 24 24" className="w-full h-full transition-all duration-200" fill={i < activeOutCount ? '#10b981' : '#cbd5e1'}>
-                          <path d="M12 2L1 12h3v9h6v-6h4v6h6v-9h3L12 2z"/>
-                        </svg>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="text-center font-bold text-xs text-slate-800">
-                    {outPercent > 0 ? `${outPercent}% FUNDED (${outsideFundedHomes.toLocaleString()} Homes Covered)` : '0% FUNDED'}
-                  </div>
-                </div>
-
-              </div>
-
-              {errorDetails && (
-                <div className="mt-2 text-[10px] text-amber-600 bg-amber-50 p-1.5 rounded border border-amber-200 text-center">
-                  ⚠️ Live sync warning: {errorDetails}
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      }
-
-      ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-</body>
-</html>
+                <div className="widget-grid">
+                  
+                  {/* ERRENTERIA */}
+                  <div className="bg-slate-50/60 border border-slate-200/80 rounded-xl p-3 flex flex-col items-center">
+                    <h3 className="font-bold text-slate-800 text-xs tracking-wide uppercase mb-2">Errenteria</h3>
+                    <div className="grid grid-cols-[repeat(18,minmax(0,1fr))] gap-1 w-full mb-2 p-1 bg-white rounded-lg border border-slate-100">
+                      {Array.from({ length: TOTAL_SLOTS }).map((_, i
